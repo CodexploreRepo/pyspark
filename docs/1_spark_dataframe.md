@@ -16,13 +16,16 @@ schema = StructType([
    StructField("name", StringType(), True),
    StructField("age", IntegerType(), True)
  ])
-
-# create Spark DataFrame from RDD
+```
+- create Spark DataFrame from *RDD of either Row, namedtuple, or dict*
+```Python
 rdd = sc.parallelize([('Alice', 1)]) # spark context -> to create a parallelized session
 spark_df = spark.createDataFrame(rdd, schema)
 spark_df.collect()
 # [Row(name='Alice', age=1)]
-
+```
+- create Spark DataFrame from Pandas DataFrame
+```Python
 # create Spark DataFrame from Pandas DataFrame
 spark_df = spark.createDataFrame(pandas_df, schema)
 ```
