@@ -13,7 +13,7 @@ sc = spark.sparkContext
 
 # define schema
 schema = StructType([
-   StructField("name", StringType(), True),
+   StructField("name", StringType(), True), # True - Nullable
    StructField("age", IntegerType(), True)
  ])
 ```
