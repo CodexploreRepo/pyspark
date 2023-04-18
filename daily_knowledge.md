@@ -4,7 +4,16 @@
 #### createDataFrame
 ##### Schema
 - When creating Spark DataFrame from Pandas DataFrame, PySpark schema needs to be the same order with Pandas DataFrame
-  - PySpark schema does not map by the column names, but by the order of `StructField`s in the `StructType` list
+  - Order: PySpark schema does not map by the column names, but by the order of `StructField`s in the `StructType` list
+- Create Spark from Numpy or Pandas Series: 
+  - Spark usually [struggles with **numpy** dtypes](https://stackoverflow.com/questions/66204342/typeerror-field-value-floattype-can-not-accept-object-0-016354798954796402-in), so you can cast them to Python float type before converting to a Spark dataframe
+  ```Python
+  df = spark.createDataFrame(
+    [float(x) for x in pd_series],
+    FloatType()
+  )
+  ```
+  - Best Practise: do not convert Numpy or Pandas Series to Spark DataFrame
 
 ### UDF
 #### Why UDF is Slow ?
