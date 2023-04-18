@@ -13,7 +13,7 @@
     FloatType()
   )
   ```
-  - Best Practise: do not convert Numpy or Pandas Series to Spark DataFrame
+  - **Best Practise**: do not convert Numpy or Pandas Series to Spark DataFrame
 
 ### UDF
 #### Why UDF is Slow ?
