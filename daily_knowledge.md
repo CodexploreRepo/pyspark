@@ -1,6 +1,19 @@
 # Daily Knowledge
 ## Day 1
+
+
 ### Spark DataFrame
+#### `toPandas`
+- Issue: Pyspark `.toPandas()` results in `object` column where expected **numeric one**
+  - *Reason*: During the conversion, there is a coalesce of data types, such as `int/long -> int64`, `double -> float64`, `string->obj`. For all unknown data types, it will be converted to obj type.
+    - In Pandas data frame, there is no decimal data type, so all columns of decimal data type are converted to obj type.
+  - *Solution*: casting `decimal` col to pandas-known data type, say `double` before toPandas()
+  - ```Python
+    from pyspark.sql.functions import *
+    from pyspark.sql.types import *
+    df = df.withColumn('AMD_4', col('AMD_4').cast(DoubleType()))
+    pdf = df.toPandas()
+    ```
 #### createDataFrame
 ##### Schema
 - When creating Spark DataFrame from Pandas DataFrame, PySpark schema needs to be the same order with Pandas DataFrame
