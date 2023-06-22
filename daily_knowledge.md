@@ -38,6 +38,7 @@ df2.show()
 ......................
 +---+---------+------+
 """
+# where 3 is total number of cols to be stacked into single row, in this case is 3 (team1, team2, team3)
 unpivotExpr = "STACK(3, 'team1_new', team1, 'team2_new', team2, 'team3_new', team3) AS (team, points)" 
 unpivot_df = df.select('id', expr(unpivotExpr)) # to create 3 cols {'id', 'team' and 'points'}
 ```
