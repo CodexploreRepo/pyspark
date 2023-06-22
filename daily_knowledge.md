@@ -39,7 +39,7 @@ df2.show()
 +---+---------+------+
 """
 unpivotExpr = "STACK(3, 'team1_new', team1, 'team2_new', team2, 'team3_new', team3) AS (team, points)" 
-unpivot_df = df.select('id', expr(unpivotExpr)) # to create 3 cols 'id', 'team' and 'points'
+unpivot_df = df.select('id', expr(unpivotExpr)) # to create 3 cols {'id', 'team' and 'points'}
 ```
 
 ## Day 1
