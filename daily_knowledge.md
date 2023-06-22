@@ -2,11 +2,46 @@
 ## Day 2
 ### PySpark SQL `expr()` (Expression) Function
 ```Python
+# Create a spark dataframe
+data = [("James","M"),("Michael","F"),("Jen","")]
+columns = ["name","gender"]
+df = spark.createDataFrame(data = data, schema = columns)
+
 from pyspark.sql.functions import expr
 df2=df.withColumn("gender", expr("CASE WHEN gender = 'M' THEN 'Male' " +
            "WHEN gender = 'F' THEN 'Female' ELSE 'unknown' END"))
 df2.show()
 ```
+#### Stack operation in PySpark SQL using `expr()`
+##### Unpivot columns into row
+```Python
+# original df
+"""
++---+-----+-----+-----+
+|id |team1|team2|team3|
++---+-----+-----+-----+
+|1  |30   |300  |3000 |
+|2  |50   |500  |5000 |
+|3  |100  |1000 |10000|
+|4  |200  |2000 |20000|
++---+-----+-----+-----+
+"""
+# Target df
+"""
++---+---------+------+
+| id|     team|points|
++---+---------+------+
+|  1|team1_new|    30|
+|  1|team2_new|   300|
+|  1|team3_new|  3000|
+|  2|team1_new|    50|
+......................
++---+---------+------+
+"""
+unpivotExpr = "STACK(3, 'team1_new', team1, 'team2_new', team2, 'team3_new', team3) AS (team, points)" 
+unpivot_df = df.select('id', expr(unpivotExpr)) # to create 3 cols 'id', 'team' and 'points'
+```
+
 ## Day 1
 ### Spark DataFrame
 #### `toPandas`
