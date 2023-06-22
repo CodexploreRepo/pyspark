@@ -1,7 +1,13 @@
 # Daily Knowledge
+## Day 2
+### PySpark SQL `expr()` (Expression) Function
+```Python
+from pyspark.sql.functions import expr
+df2=df.withColumn("gender", expr("CASE WHEN gender = 'M' THEN 'Male' " +
+           "WHEN gender = 'F' THEN 'Female' ELSE 'unknown' END"))
+df2.show()
+```
 ## Day 1
-
-
 ### Spark DataFrame
 #### `toPandas`
 - Issue: Pyspark `.toPandas()` results in `object` column where expected **numeric one**
@@ -20,8 +26,8 @@
   - Order: PySpark schema does not map by the column names, but by the order of `StructField`s in the `StructType` list
 - Create Spark from Numpy or Pandas Series: 
   - Spark usually [struggles with **numpy** dtypes](https://stackoverflow.com/questions/66204342/typeerror-field-value-floattype-can-not-accept-object-0-016354798954796402-in)
-    - for example `TypeError: field value: FloatType can not accept object -0.016354798954796402 in type <class 'numpy.float64'>`
-    - so you can cast them from `Numpy dtype` to `Python dtype` before converting to a Spark dataframe, in this case, we convert `np.float64` to Python's `float` 
+    - For example `TypeError: field value: FloatType can not accept object -0.016354798954796402 in type <class 'numpy.float64'>`
+    - So you can cast them from `Numpy dtype` to `Python dtype` before converting to a Spark dataframe, in this case, we convert `np.float64` to Python's `float` 
   ```Python
   df = spark.createDataFrame(
     [float(x) for x in pd_series],
