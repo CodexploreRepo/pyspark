@@ -144,7 +144,7 @@ Solution: Apache Arrow, or write UDF in native languages (Scala or Java)
 ```Python
 spark = SparkSession \
         .builder \
-        .appName("Spark Example") \
+        .appName("SparkExample") \
         .config("spark.memory.offHeap.enabled","true") \ # data was cached in off-heap memory to avoid storing it directly on disk
         .config("spark.memory.offHeap.size","10g") \
         .getOrCreate()                                   # creates the Spark session with the specified configurations
@@ -164,7 +164,7 @@ def create_spark_session():
     try:
         spark = SparkSession \
              .builder \
-             .appName("Spark Example") \
+             .appName("SparkExample") \
             #  .config("spark.hadoop.fs.s3a.impl","org.apache.hadoop.fs.s3a.S3AFileSystem") \ # S3A configuration for accessing data from AWS S3
             #  .config("spark.hadoop.fs.s3a.path.style.access",True) \
             #  .config("spark.hadoop.hadoop.security.authentication", "kerberos") \
