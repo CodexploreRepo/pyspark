@@ -137,6 +137,15 @@ Solution: Apache Arrow, or write UDF in native languages (Scala or Java)
   - When you start Spark in this interactive mode, you implicitly create a `SparkSession` that manages the Spark Application.
   - When you start it through a standalone application, you must create the `SparkSession` **object** yourself in your application code.
 
+#### `SparkSession` vs `SparkContext`
+
+- In Spark 1.X, it had effectively two contexts: `SparkContext` and `SQLContext`
+  - `SparkContext` focused on more fine-grained control of Spark’s central abstractions
+  - `SQLContext` focused on the higher-level tools like Spark SQL.
+- In Spark 2.X, the communtiy combined the two APIs into the centralized `SparkSession` that we have today.
+  - `SparkSession` is more robustly instantiates the **Spark** and **SQL Contexts** and ensures that there is no context conflict
+  - NOTE: both `SparkContext` and `SQLContext` are still available under `SparkSession`, but both of them are rarely used.
+
 #### Creating a SparkSession
 
 - A SparkSession is an entry point into all functionality in Spark, and is required if you want to build a dataframe in PySpark.
