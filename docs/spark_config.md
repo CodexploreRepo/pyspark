@@ -51,8 +51,15 @@ spark-submit --executor-memory 16G
 
 ## List of configs
 
+### `spark.memory`
+
+- `("spark.memory.offHeap.enabled","true")` if true, data was cached in off-heap memory to avoid storing it directly on disk
+  - `("spark.memory.offHeap.size","10g")` we also can specify the off-heap memory size
+
+### `spark.sql`
+
+- `("spark.sql.shuffle.partitions", "200")` to set the number of the output partitions from the shuffle (default is 200)
+  - Experimenting with different values, you should see drastically different runtimes.
 - `("spark.sql.warehouse.dir", "/user/hive/warehouse")` this configuration property specifies the default location where Spark SQL will store _managed tables_ in Hive's warehouse directory.
   - _Managed tables_ are those tables whose (**data** and **metadata**) are managed by Spark, and such tables are created using the `CREATE TABLE` SQL command
   - If you don't explicitly set this configuration, Spark will use the Hive default warehouse location, which is typically set to something like `/user/hive/warehouse`
-- `("spark.sql.shuffle.partitions", "200")` to set the number of the output partitions from the shuffle (default is 200)
-  - Experimenting with different values, you should see drastically different runtimes.
