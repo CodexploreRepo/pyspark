@@ -1,6 +1,55 @@
 # Daily Knowledge
 
+## Day 3
+
+### How to store the Spark Dataframe
+
+- **Method 1**: write the `spark_df` into S3 as `.parquet` format
+  - Note: only need to specify the table name `your_table_name` without appending `.parquet` extension to the table name
+
+```Python
+table_path = "s3a://your_bucket_name/your_folder_path/your_table_name"
+# write the spark dataframe to the underlying s3 storage location of the hive table "your_hive_table_name"
+df.write \
+  .mode("overwrite") \
+  .partitionBy("partition_col1", "partition_col2") \
+  .parquet(table_path)
+```
+
+- Method 2: if the Hive table exists, we can write the `spark_df` to the Hive table via the Hive table name and which Hive schema the table is belong to using `write.saveAsTable`
+
+```Python
+df.write \
+  .mode("overwrite") \
+  .partitionBy("partition_col1", "partition_col2") \
+  .format("parquet") \
+  .saveAsTable("your_database_name.your_hive_table_name")
+```
+
 ## Day 2
+
+### Hive
+
+- **Hive** stores schema’s **metadata** in a database (such as Apache Derby, MySQL, Postgres or MariaDB) and processes data from connected storage (such as HDFS or S3).
+  - It provides SQL-like query language, HiveQL.
+- **Hive metastore** to store the `metadata` of **hive tables** and **table's partitions**
+  - Hive metastore can have multiple schema (databases), and each schema (database) can contain multiple Hive table metadata.
+- Hive tables: Hive supports two types of tables:
+  - **Managed Tables (Internal Tables)**: these tables manage both the data and metadata in Hive's default warehouse directory (specified by `hive.metastore.warehouse.dir`
+  - **External Tables**: these tables reference data files stored outside Hive, often in HDFS or S3.
+    - Note :star: : Since the data files are not managed by Hive, so altering or dropping an external Hive table doesn't delete the underlying data. You might have to delete the data from the underlying HDSF or S3 location.
+- Create Hive table: below is example of creating external Hive table via `spark.sql`. Read more on full documentation of creating Hive table [here](./docs/hive.md#how-to-create-hive-table)
+
+```Python
+spark.sql("""
+    CREATE TABLE IF NOT EXISTS your_database_name.your_external_table_name (
+        id INT, name STRING, age INT
+    )
+    PARTITIONED BY (country STRING, city STRING)
+    STORED AS PARQUET
+    LOCATION 'hdfs://your_hdfs_path/your_external_table_name/'
+""")
+```
 
 ### PySpark SQL `expr()` (Expression) Function
 

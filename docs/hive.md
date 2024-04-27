@@ -4,8 +4,8 @@
 
 ### Hive
 
-- Apache Hive is a data warehousing system built on top of Hadoop, supporting analysis of large data sets stored in Hadoop-distributed file systems (HDFS) or S3 using SQL-like queries.
-- It stores schema’s **metadata** in a database (such as Postgres) and processes data from connected storage (such as HDFS or S3).
+- Apache Hive is a data warehousing system built on top of Hadoop, supporting _analysis_ of large data sets stored in Hadoop-distributed file systems (HDFS) or S3 using SQL-like queries.
+- It stores schema’s **metadata** in a database (such as Apache Derby, MySQL, Postgres or MariaDB) and processes data from connected storage (such as HDFS or S3).
 - It provides SQL-like query language, HiveQL.
 
 ### Hive metastore
@@ -15,7 +15,7 @@
   - Serializers and de-serializers necessary to read and write data
   - Locations of relevant data in HDFS or S3
 - The `metadata` in Hive metastore is stored in an open-source RDBMS namely Apache Derby (MySQL/ Postgres/ MariaDB can also be used)
-- Hive metastore can have multiple databases, and each database can contain multiple Hive tables.
+- Hive metastore can have multiple schema (databases), and each schema (database) can contain multiple Hive table metadata.
   - Below is the pyspark code to list all database available in Hive metastore and Hive tables in each of the database
 
 ```Python
@@ -57,12 +57,12 @@ for database in databases:
 
 #### Managed Tables (Internal Tables)
 
-- **Managed Tables**: Also known as `internal table`, these tables manage both the data and metadata in Hive's default warehouse directory (specified by `hive.metastore.warehouse.dir`).
+- **Managed Tables**: also known as `internal table`, these tables manage both the data and metadata in Hive's default warehouse directory (specified by `hive.metastore.warehouse.dir`).
 
 #### External Tables
 
-- **External Tables**: These tables reference data files stored outside Hive, often in HDFS or S3.
-  - Since the data files are not managed by Hive, so altering or dropping an external Hive table doesn't delete the underlying data. You might have to delete the data via the underlying HDSF or S3 location.
+- **External Tables**: these tables reference data files stored outside Hive, often in HDFS or S3.
+  - Since the data files are not managed by Hive, so altering or dropping an external Hive table doesn't delete the underlying data. You might have to delete the data from the underlying HDSF or S3 location.
 
 ## How to create Hive Table
 
