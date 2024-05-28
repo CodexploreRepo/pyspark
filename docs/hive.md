@@ -180,3 +180,46 @@ spark.sql("REFRESH TABLE your_database_name.your_hive_table_name")
 # if table is external and have partitions, MSCK REPAIR is used to repair the metadata for partitions that were added or removed externally.
 spark.sql("MSCK REPAIR your_database_name.your_hive_table_name")
 ```
+
+## How to view the Hive Table details
+
+```Python
+# Get detailed metadata about the table
+table_metadata = spark.sql("DESCRIBE FORMATTED db.table_name")
+table_metadata.show(truncate=False)
+
+# +----------------------------+----------------------------------------------------+-------+
+# |col_name                    |data_type                                           |comment|
+# +----------------------------+----------------------------------------------------+-------+
+# |# Detailed Table Information|                                                    |       |
+# |Database                    |db                                                  |       |
+# |Table                       |table_name                                          |       |
+# |Owner                       |user                                                |       |
+# |Created Time                |Fri May 28 13:57:49 UTC 2023                        |       |
+# |Last Access                 |UNKNOWN                                             |       |
+# |Created By                  |Spark 2.4.0                                         |       |
+# |Type                        |EXTERNAL                                            |       |
+# |Provider                    |parquet                                             |       |
+# |Location                    |s3://path/to/table                                  |       |
+# |Serde Library               |org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe|       |
+# |InputFormat                 |org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat|       |
+# |OutputFormat                |org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat|       |
+# |Partition By                |:partition_col1, partition_col2                     |       |
+# +----------------------------+----------------------------------------------------+-------+
+```
+
+- Get the table partition information
+
+```Python
+# Get the partition information (if the table is partitioned)
+partitions = spark.sql("SHOW PARTITIONS db.table_name")
+partitions.show(truncate=False)
+
+# +--------------------------+
+# |partition                 |
+# +--------------------------+
+# |partition_col1=value1/... |
+# |partition_col1=value2/... |
+# |partition_col1=value3/... |
+# +--------------------------+
+```
